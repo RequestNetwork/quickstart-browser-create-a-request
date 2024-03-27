@@ -25,11 +25,11 @@ enum APP_STATUS {
 }
 
 export default function Home() {
-  const [storageChain, setStorageChain] = useState("5");
-  const [expectedAmount, setExpectedAmount] = useState("");
-  const [currency, setCurrency] = useState(
-    "5_0xBA62BCfcAaFc6622853cca2BE6Ac7d845BC0f2Dc"
+  const [storageChain, setStorageChain] = useState(
+    storageChains.keys().next().value,
   );
+  const [currency, setCurrency] = useState(currencies.keys().next().value);
+  const [expectedAmount, setExpectedAmount] = useState("");
   const [paymentRecipient, setPaymentRecipient] = useState("");
   const [payerIdentity, setPayerIdentity] = useState("");
   const [dueDate, setDueDate] = useState("");
@@ -60,7 +60,7 @@ export default function Home() {
         },
         expectedAmount: parseUnits(
           expectedAmount as `${number}`,
-          currencies.get(currency)!.decimals
+          currencies.get(currency)!.decimals,
         ).toString(),
         payee: {
           type: Types.Identity.TYPE.ETHEREUM_ADDRESS,
@@ -100,7 +100,7 @@ export default function Home() {
     try {
       setStatus(APP_STATUS.PERSISTING_TO_IPFS);
       const request = await requestClient.createRequest(
-        requestCreateParameters
+        requestCreateParameters,
       );
 
       setStatus(APP_STATUS.PERSISTING_ON_CHAIN);
